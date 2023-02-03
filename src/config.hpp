@@ -34,9 +34,9 @@ class Config {
 
       for (const auto &customToggleConfig : config["customToggleConfigs"]) {
         CustomToggleConfig c;
-        c.monitorIndex = customToggleConfig['monitorIndex'].get<int>();
-        c.normal = customToggleConfig['normal'].get<DWORD>();
-        c.modifiers = customToggleConfig['modifiers'].get<std::vector<DWORD>>();
+        c.monitorIndex = customToggleConfig["monitorIndex"].get<int>();
+        c.normal = customToggleConfig["normal"].get<DWORD>();
+        c.modifiers = customToggleConfig["modifiers"].get<std::vector<DWORD>>();
 
         content.customToggleConfigs.push_back(c);
       }
