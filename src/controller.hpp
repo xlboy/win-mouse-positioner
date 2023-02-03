@@ -65,7 +65,6 @@ class Controller {
     };
 
     void handleKeyboardEvent(DWORD vkCode, bool isDown) {
-      cout << vkCode << endl;
       bool hasHandled = hotkeyManager.handle(vkCode, isDown);
 
       // 如果当前按下的键与 `hotkeyManager` 中存储的热键匹配，则不进入下面的“其他处理”
