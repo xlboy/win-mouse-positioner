@@ -1,0 +1,51 @@
+{
+  "folders": [
+    {
+      "name": "Win",
+      "path": ".."
+    },
+    {
+      "name": "Web",
+      "path": "../web/"
+    }
+  ],
+  "settings": {
+    "cmake.configureOnOpen": true,
+    "files.associations": {
+      "string": "cpp"
+    },
+    "clangd.arguments": ["--compile-commands-dir=${workspaceFolder}/build/"],
+    "C_Cpp.intelliSenseEngine": "disabled",
+    "lldb.commandCompletions": true,
+    // LLDB 指针显示解引用内容
+    "lldb.dereferencePointers": true,
+    // LLDB 鼠标悬停在变量上时预览变量值
+    "lldb.evaluateForHovers": true,
+    // LLDB 监视表达式的默认类型
+    "lldb.launch.expressions": "simple",
+    // LLDB 不显示汇编代码
+    "lldb.showDisassembly": "never",
+    // LLDB 生成更详细的日志
+    "lldb.verboseLogging": true,
+    "commentTranslate.targetLanguage": "zh-CN",
+    "testMate.cpp.test.executables": "bin/__test__/*{test}*",
+    "testMate.cpp.debug.configTemplate": {
+      "type": "cppvsdbg",
+      "linux": { "type": "cppdbg", "MIMode": "gdb" },
+      "darwin": { "type": "cppdbg", "MIMode": "lldb" },
+      "windows": { "type": "cppvsdbg" },
+      "program": "${exec}",
+      "args": "${argsArray}",
+      "cwd": "${cwd}",
+      "env": "${envObj}",
+      "environment": "${envObjArray}",
+      "sourceFileMap": "${sourceFileMapObj}",
+      "testMate.cpp.debug.setEnv": {
+        "GTEST_CATCH_EXCEPTIONS": "0",
+        "OVERWRITE_ME": "this env will be added or overwritten with this value",
+        "UNSET_ME": null
+      }
+    },
+    "typescript.tsdk": "web\\node_modules\\typescript\\lib"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "configurations": [
+  
+    {
+      "name": "win-debug",
+      "type": "cppvsdbg",
+      "request": "launch",
+      // 当program指定为该变量时，CMake插件会弹出一个对话框，让用户在可执行的Target中选择一个执行
+      "program": "${command:cmake.launchTargetPath}",
+      "args": [],
+      // 是否在程序运行之初，即main函数第一行进入调试状态
+      "stopAtEntry": false,
+      // 执行目录指定为该变量时，会根据CMake目标程序所在目录设置当前执行目录
+      "cwd": "${command:cmake.launchTargetDirectory}",
+      "environment": [],
+      // 是否使用外部console显示debug信息
+      // "console": "integratedTerminal",
+      "console": "externalTerminal",
+      "logging": {
+        "moduleLoad": false,
+        "trace": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "cout<format<endl": {
+    "scope": "cpp",
+    "prefix": "cfe",
+    "body": ["cout << format(\"$1\") << endl;"]
+  },
+  "init.std": {
+    "scope": "cpp",
+    "prefix": "init.std",
+    "body": ["#include <iostream>", "", "using namespace std;", ""]
+  },
+  "init.gtest": {
+    "scope": "cpp",
+    "prefix": "init.gtest",
+    "body": ["#include <gtest/gtest.h>", "", "using namespace std;", ""]
+  },
+  "init.class": {
+    "scope": "cpp",
+    "prefix": "init.class",
+    "body": [
+      "class $1 {",
+      "private:",
+      "private:",
+      "",
+      "public:",
+      "public:",
+      "};"
+    ]
+  }
+}
