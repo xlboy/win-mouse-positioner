@@ -46,6 +46,8 @@
         "UNSET_ME": null
       }
     },
-    "typescript.tsdk": "web\\node_modules\\typescript\\lib"
+    "typescript.tsdk": "Web\\node_modules\\typescript\\lib",
+    "twind.attributes": ["tw", "className", "class"],
+    "twind.enable": true
   }
 }
