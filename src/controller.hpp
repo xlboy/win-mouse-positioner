@@ -1,17 +1,15 @@
+#include "./config.hpp"
+#include "./hotkey/index.hpp"
+#include "./keyboard-listener.hpp"
+#include "./monitor.hpp"
+#include "./utils/vk-codes.h"
 #include <iostream>
 #include <map>
 #include <string>
 #include <thread>
-#include "./hotkey/index.hpp"
-#include "./config.hpp"
-#include "./keyboard-listener.hpp"
-#include "./monitor.hpp"
-#include "./utils/vk-codes.h"
 
 namespace {
-  enum class HotkeyAction {
-    SelectToogle
-  };
+  enum class HotkeyAction { SelectToogle };
 
   const map</* VK Code */ DWORD, /* Monitor Number */ DWORD> keyboardNumberMap = {
     { VK_KEY_1, 0 },
@@ -37,29 +35,24 @@ class Controller {
 
   private:
     void initHotkey() {
-      hotkeyManager.add(
-        "selectToogle",
-        { config.getSelectToogle(),
-          [this](bool isDown) {
-            if (isDown) {
-              isSelecting = true;
-              std::cout << "SelectToogle" << std::endl;
-            }
-          } }
-      );
+      hotkeyManager.add("selectToogle", { config.getSelectToogle(), [this](bool isDown) {
+                                           if (isDown) {
+                                             isSelecting = true;
+                                             std::cout << "SelectToogle" << std::endl;
+                                           }
+                                         } });
 
       for (const auto &customToggleConfig : config.getCustomToggleConfigs()) {
         hotkeyManager.add(
           "customToggle" + to_string(customToggleConfig.monitorIndex),
-          { customToggleConfig,
-            [&](bool isDown) {
-              if (isDown) {
-                POINT point;
-                monitor.getPoint(customToggleConfig.monitorIndex, position, point);
-                SetPhysicalCursorPos(point.x, point.y);
-                SetPhysicalCursorPos(point.x, point.y);
-              }
-            } }
+          { customToggleConfig, [&](bool isDown) {
+             if (isDown) {
+               POINT point;
+               monitor.getPoint(customToggleConfig.monitorIndex, position, point);
+               SetPhysicalCursorPos(point.x, point.y);
+               SetPhysicalCursorPos(point.x, point.y);
+             }
+           } }
         );
       }
     };
@@ -67,17 +60,21 @@ class Controller {
     void handleKeyboardEvent(DWORD vkCode, bool isDown) {
       bool hasHandled = hotkeyManager.handle(vkCode, isDown);
 
-      // 如果当前按下的键与 `hotkeyManager` 中存储的热键匹配，则不进入下面的“其他处理”
-      if (hasHandled) return;
+      // 如果当前按下的键与 `hotkeyManager`
+      // 中存储的热键匹配，则不进入下面的“其他处理”
+      if (hasHandled)
+        return;
 
       // #region  //*=========== handle-other-pressed-action ===========
       if (isDown && isSelecting) {
-        if (keyboardNumberMap.find(vkCode) == keyboardNumberMap.end()) return;
+        if (keyboardNumberMap.find(vkCode) == keyboardNumberMap.end())
+          return;
 
         int curPressedMonitorNumber = keyboardNumberMap.at(vkCode);
         int monitorCount = monitor.getCount();
 
-        if (curPressedMonitorNumber >= monitorCount || curPressedMonitorNumber < 0) return;
+        if (curPressedMonitorNumber >= monitorCount || curPressedMonitorNumber < 0)
+          return;
 
         POINT point;
 
@@ -90,12 +87,21 @@ class Controller {
       // #endregion  //*======== handle-other-pressed-action ===========
     };
 
+    bool hasDown(DWORD vkCode, bool isDown) {
+      bool hasHandled = hotkeyManager.handle(vkCode, isDown);
+
+      return hasHandled;
+    }
+
   public:
     Controller() {
       initHotkey();
 
       std::thread([this]() {
         new KeyboardListener(
+          [this](DWORD vkCode, bool isDown) {
+            return hasDown(vkCode, isDown);
+          },
           [this](DWORD vkCode, bool isDown) {
             handleKeyboardEvent(vkCode, isDown);
           }
